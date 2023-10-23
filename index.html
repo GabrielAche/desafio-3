@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafio API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #0077B6;
+            color: #FFF;
+            padding: 20px;
+        }
+
+        label {
+            font-size: 18px;
+        }
+
+        input {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #0077B6;
+            color: #FFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f8d;
+        }
+
+        #resultado {
+            background-color: #FFF;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Endereço API ViaCEP</h1>
+    <label>Digite seu CEP:</label>
+    <input type="number" id="cep" />
+    <button onclick="buscaCEP()">Buscar</button>
+    <div id="resultado"> 
+        <p>Endereço solicitado</p>
+    </div>
+
+    <script>
+        function buscaCEP(){//Função chamada quando o botão Buscar é clicado
+            let cep = document.querySelector("#cep").value;  //variável cep que recebe o valor digitado no input
+            let url = `https://viacep.com.br/ws/${cep}/json/` //variável com o link da url, a qual faz a requisição pra API + cep digitado no input
+        
+            fetch(url).then(function(respose){  // função fetch faz a requisição pra url
+                respose.json().then(mostradados) // transformo a resposta do fetch em uma promessa no formato Json
+            });
+        }    
+                
+
+        function mostradados(dados){ // função pra mostrar os dados do endereço 
+            let resultado = document.querySelector('#resultado'); // variável com o elemento do id resultado, que contém os dados
+            resultado.innerHTML = `<p>Cidade: ${dados.localidade}</p> 
+                                   <p>UF: ${dados.uf}</p>
+                                   <p>Bairro: ${dados.bairro}</p>
+                                   <p>Logradouro: ${dados.logradouro}</p>`          
+        }
+    </script>
+</body>
+</html>
